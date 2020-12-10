@@ -64,25 +64,30 @@ const JsCalculator = () => {
     return setDisplay(display === "0" ? value : display + value)
   }
 
-  const addNum = (item) => {
-    displayNum(item.stringOp)
-  }
-
-  const substractNum = (item) => {
-    displayNum()
-  }
-
-  const multiplyNum = (item) => {
-    displayNum()
-  }
-
-  const divideNum = (item) => {
-    displayNum()
-  }
-
   const calculate = () => {
-    const arr = display.split(/[0-9]/g)
-    console.log(arr)
+    let ops = display.match(/\+|-|\*|\//g)
+    let nums = display.match(/(\d+(?:\.\d*)?|\.\d+)/g)
+
+    let sum = parseFloat(nums[0])
+
+    for (let i = 0 ; i < nums.length ; i++){
+      switch (ops[i]){
+        case "+":
+          sum += parseFloat(nums[i+1])
+          break;
+        case "-":
+          sum -= parseFloat(nums[i+1])
+          break;
+        case "*":
+          sum *= parseFloat(nums[i+1])
+          break;
+        case "/":
+          sum /= parseFloat(nums[i+1])
+          break;
+        default:
+      }
+    }
+    setDisplay(sum)
   }
 
 
@@ -90,22 +95,18 @@ const JsCalculator = () => {
     {
       stringOp: "+",
       id: "add",
-      function: addNum
     },
     {
       stringOp: "-",
-      id: "substract",
-      function: substractNum
+      id: "subtract",
     },
     {
-      stringOp: "x",
+      stringOp: "*",
       id: "multiply",
-      function: multiplyNum
     },
     {
       stringOp: "/",
       id: "divide",
-      function: divideNum
     },
   ]
 
@@ -119,13 +120,13 @@ const JsCalculator = () => {
         {dataNum.map(item => (
           <button onClick={() => displayNum(item.stringNum)} class="number" id={item.id}>{item.key}</button>
         ))}
-        <button id="decimal">.</button>
+        <button onClick={() => displayNum(".")} id="decimal">.</button>
         <button onClick={() => setDisplay("0")} id="clear">C</button>
       </div>
 
       <div id="operators">
         {dataOperators.map(item => (
-          <button onClick={() => {item.function(item)}} id={item.id}>{item.stringOp}</button>
+          <button onClick={() => displayNum(item.stringOp)} id={item.id}>{item.stringOp}</button>
         ))}
       </div>
 
