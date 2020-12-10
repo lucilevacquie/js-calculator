@@ -81,8 +81,24 @@ const JsCalculator = () => {
   }
 
   const calculate = () => {
-    const arr = display.split(/[0-9]/g)
-    console.log(arr)
+    // pull out all of the operators
+    var ops =  display.match(/\+/g);
+    // pull out all of the numbers
+    var nums = display.match(/\d+/g);
+    // start the sum with the first number
+    var sum = parseFloat(nums[0]);
+    // for each number, calculate the sum using the operator after it
+    for (var i = 0; i < nums.length; i++) {
+      switch (ops[i]) {
+        case "+":
+          sum += parseFloat(nums[i+1]);
+          break;
+        default:
+          // do nothing
+      }
+    }
+    // display the total sum
+    setDisplay(sum);
   }
 
 
@@ -117,7 +133,7 @@ const JsCalculator = () => {
 
       <div id="numbers">
         {dataNum.map(item => (
-          <button onClick={() => displayNum(item.stringNum)} class="number" id={item.id}>{item.key}</button>
+          <button key={item.key} onClick={() => displayNum(item.stringNum)} className="number" id={item.id}>{item.key}</button>
         ))}
         <button id="decimal">.</button>
         <button onClick={() => setDisplay("0")} id="clear">C</button>
@@ -125,7 +141,7 @@ const JsCalculator = () => {
 
       <div id="operators">
         {dataOperators.map(item => (
-          <button onClick={() => {item.function(item)}} id={item.id}>{item.stringOp}</button>
+          <button key={item.id} onClick={() => {item.function(item)}} id={item.id}>{item.stringOp}</button>
         ))}
       </div>
 
