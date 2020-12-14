@@ -61,6 +61,12 @@ const JsCalculator = () => {
   const [display, setDisplay] = useState("0")
 
   const displayNum = (value) => {
+    if (value === "." && display.substring(display.length, 1) === "."){
+      return null
+    }
+    else if ((value === "+"|| value === "*"|| value === "/") && (display.substring(display.length, 1) === "+"|| display.substring(display.length, 1) ==="*"|| display.substring(display.length, 1) ==="/")){
+      return null
+    }
     return setDisplay(display === "0" ? value : display + value)
   }
 
