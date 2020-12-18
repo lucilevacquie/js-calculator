@@ -142,9 +142,9 @@ const JsCalculator = () => {
     if(lastOperator.current === "-"){
       const index = operators.current.length - 1
       const operator = operators.current[index].replaceAll(" ", "")
-      if (operator.length > 1 && operator[operator.lentgth - 2] === "-"){
+      if (operator.length > 1){
         value = `-${value}`
-        operators.current[index] = operator.current[index].substring(0, operator.length)
+        operators.current[index] = operators.current[index].substring(0, operators.current[index].length-2)
       }
     }
 
